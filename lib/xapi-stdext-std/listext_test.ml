@@ -74,6 +74,31 @@ let test_take =
   let tests = List.map test specs in
   ("take", tests)
 
+let test_drop =
+  let specs =
+    [
+      ([], -1, [])
+    ; ([], 0, [])
+    ; ([], 1, [])
+    ; ([1; 2; 3], -1, [1; 2; 3])
+    ; ([1; 2; 3], 0, [1; 2; 3])
+    ; ([1; 2; 3], 1, [2; 3])
+    ; ([1; 2; 3], 2, [3])
+    ; ([1; 2; 3], 3, [])
+    ; ([1; 2; 3], 4, [])
+    ; ([1; 2; 3], 5, [])
+    ]
+  in
+  let test (whole, number, expected) =
+    let name =
+      Printf.sprintf "drop %i from [%s]" number
+        (String.concat "; " (List.map string_of_int whole))
+    in
+    test_list (Listext.drop number) (name, whole, expected)
+  in
+  let tests = List.map test specs in
+  ("drop", tests)
+
 let test_safe_hd =
   let specs = [([], None); ([0], Some 0); ([0; 1], Some 0)] in
   let[@warning "-3"] test (list, expected) =

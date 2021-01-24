@@ -160,17 +160,20 @@ module List : sig
   (** Tail-recursive [mapi]. *)
 
   val chop : int -> 'a list -> 'a list * 'a list
-  (** Split a list at the given index to give a pair of lists. *)
+  (** [chop k l] splits [l] at index [k] to return a pair of lists. Raises
+      invalid_arg when [i] is negative or greater than the length of [l]. *)
 
   val rev_chop : int -> 'a list -> 'a list * 'a list
-  (** Split a list at the given index to give a pair of lists, the first in
-      		  reverse order. *)
+  (** [rev_chop k l] splits [l] at index [k] to return a pair of lists, the
+      first in reverse order. Raises invalid_arg when [i] is negative or
+      greater than the length of [l]. *)
 
   val chop_tr : int -> 'a list -> 'a list * 'a list
   (** Tail-recursive [chop]. *)
 
   val dice : int -> 'a list -> 'a list list
-  (** Split a list into lists with the given number of elements. *)
+  (** [dice k l] splits [l] into lists with [k] elements each. Raises
+      invalid_arg if [List.length l] is not divisible by [k]. *)
 
   val sub : int -> int -> 'a list -> 'a list
   (** Extract the sub-list between the given indices. *)
@@ -261,9 +264,14 @@ module List : sig
   (** [take n list] returns the first [n] elements of [list] (or less if list
       	    is shorter).*)
 
+  val drop : int -> 'a list -> 'a list
+  (** [drop n list] returns the list without the first [n] elements of [list]
+      (or [] if list is shorter). *)
+
   val tails : 'a list -> 'a list list
 
   val safe_hd : 'a list -> 'a option
+    [@@deprecated "Use List.nth_opt list 0 instead"]
 
   val replace_assoc : 'a -> 'b -> ('a * 'b) list -> ('a * 'b) list
   (** Replace the value belonging to a key in an association list. Adds the key/value pair
